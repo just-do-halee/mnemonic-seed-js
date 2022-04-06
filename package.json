@@ -7,7 +7,8 @@
   "files": [
     "dist",
     "CHANGELOG.md",
-    "README.md"
+    "README.md",
+    "coverage.png"
   ],
   "types": "dist/index.d.ts",
   "scripts": {

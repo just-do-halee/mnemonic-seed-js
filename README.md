@@ -41,6 +41,12 @@ seed.kill(); // clear all datas
 
 [MIT](LICENSE)
 
+<br>
+
+## **Current Coverage**<br>
+
+<img src="./coverage.png" alt="coverage">
+
 [npm-image]: https://img.shields.io/npm/v/mnemonic-seed-js.svg
 [npm-url]: https://npmjs.org/package/mnemonic-seed-js
 [downloads-image]: https://img.shields.io/npm/dm/mnemonic-seed-js.svg
