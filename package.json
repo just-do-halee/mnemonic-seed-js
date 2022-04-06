@@ -1,0 +1,58 @@
+{
+  "name": "mnemonic-seed-js",
+  "version": "0.1.0",
+  "description": "mnemonic and seed generator according to BIP39",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "README.md"
+  ],
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "rollup": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/just-do-halee/mnemonic-seed-js.git"
+  },
+  "keywords": [
+    "bip39",
+    "mnemonic",
+    "seed",
+    "generator",
+    "bitcoin",
+    "blockchain",
+    "wallet"
+  ],
+  "author": "just-do-halee <just.do.halee@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/just-do-halee/mnemonic-seed-js/issues"
+  },
+  "homepage": "https://github.com/just-do-halee/mnemonic-seed-js#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-typescript": "^8.3.0",
+    "@types/create-hash": "^1.2.2",
+    "@types/crypto-js": "^4.1.1",
+    "@types/jest": "^27.4.1",
+    "@types/pbkdf2": "^3.1.0",
+    "@types/randombytes": "^2.0.0",
+    "jest": "^27.5.1",
+    "rollup": "^2.66.1",
+    "rollup-plugin-dts": "^4.1.0",
+    "ts-jest": "^27.1.4",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "create-hash": "^1.2.0",
+    "pbkdf2": "^3.1.2",
+    "randombytes": "^2.1.0"
+  }
+}
