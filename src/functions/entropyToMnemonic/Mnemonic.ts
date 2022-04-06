@@ -18,7 +18,7 @@ export interface Mnemonic {
 
 export class MnemonicImpl implements Mnemonic {
   readonly rawIndex: RawMnemonicIndexArray;
-  constructor(readonly lang: Language, readonly raw: RawMnemonicArray) {
+  private constructor(readonly lang: Language, readonly raw: RawMnemonicArray) {
     this.rawIndex = [];
     if (
       MnemonicImpl.isValidRawMnemonicArray(lang, raw, (index) => {
@@ -26,6 +26,9 @@ export class MnemonicImpl implements Mnemonic {
       }) === false
     )
       throw new Error(`not a valid raw mnemonic array`);
+  }
+  static new(language: Language, rawArray: RawMnemonicArray): Mnemonic {
+    return new MnemonicImpl(language, rawArray);
   }
   static unsafeNew(
     language: Language,

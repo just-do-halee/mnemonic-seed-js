@@ -6,6 +6,8 @@ import {
   entropyToMnemonic,
   mnemonicToSeed,
   mnemonicToEntropy,
+  BinaryImpl,
+  MnemonicImpl,
 } from './functions';
 
 export type SeedOption = {
@@ -39,23 +41,45 @@ export default class implements Seed {
     const buffer = mnemonicToSeed(mnemonic, passphrase);
     return new this(entropy, mnemonic, buffer);
   }
-  static fromEntropy(src: Binary, option: SeedOption = {}): Seed {
+  /**
+   *
+   * @param src - Binary or (`Hex`)string;
+   * @param option - SeedOption = {
+                   - passphrase?: string;
+                   - bitsSize?: EntropyBits;
+                   - language?: Language;
+                   - };
+   * @returns
+   */
+  static fromEntropy(src: Binary | string, option: SeedOption = {}): Seed {
     const { language, passphrase } = {
       ...this.defaultSeedOption,
       ...option,
     };
-    const mnemonic = entropyToMnemonic(src, language);
+    let entropy: Binary;
+    if (typeof src === 'string') {
+      entropy = BinaryImpl.fromHex(src); // Hex
+    } else {
+      entropy = src; // Binary
+    }
+    const mnemonic = entropyToMnemonic(entropy, language);
     const buffer = mnemonicToSeed(mnemonic, passphrase);
-    return new this(src, mnemonic, buffer);
+    return new this(entropy, mnemonic, buffer);
   }
-  static fromMnemonic(src: Mnemonic, option: SeedOption = {}): Seed {
-    const { passphrase } = {
+  static fromMnemonic(src: Mnemonic | string, option: SeedOption = {}): Seed {
+    const { passphrase, language = 'english' } = {
       ...this.defaultSeedOption,
       ...option,
     };
-    const entropy = mnemonicToEntropy(src, false);
-    const buffer = mnemonicToSeed(src, passphrase);
-    return new this(entropy, src, buffer);
+    let mnemonic: Mnemonic;
+    if (typeof src === 'string') {
+      mnemonic = MnemonicImpl.new(language, src.split(' ')); // Mnemonic String
+    } else {
+      mnemonic = src; // Mnemonic
+    }
+    const entropy = mnemonicToEntropy(mnemonic, false);
+    const buffer = mnemonicToSeed(mnemonic, passphrase);
+    return new this(entropy, mnemonic, buffer);
   }
   static fromSeed(src: Seed): Seed {
     return new this(src.entropy, src.mnemonic, src.buffer);

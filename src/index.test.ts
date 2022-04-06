@@ -13,7 +13,10 @@ describe('final', () => {
     expect(seed2).toEqual(seed.buffer);
 
     expect(Seed.fromEntropy(seed.entropy)).toEqual(seed);
+    expect(Seed.fromEntropy(seed.entropy.toHex())).toEqual(seed);
+
     expect(Seed.fromMnemonic(seed.mnemonic)).toEqual(seed);
+    expect(Seed.fromMnemonic(seed.mnemonic.toString())).toEqual(seed);
     expect(Seed.fromSeed(seed)).toEqual(seed);
   });
 

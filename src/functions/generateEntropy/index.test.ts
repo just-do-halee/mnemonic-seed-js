@@ -27,7 +27,7 @@ describe('Binary class', () => {
     binary = generateEntropy('128', false);
   });
   test('constructor()', () => {
-    expect(() => new BinaryImpl('0101010df0wefwef')).toThrowError(
+    expect(() => BinaryImpl.new('0101010df0wefwef')).toThrowError(
       new Error(`not a binary string`)
     );
   });

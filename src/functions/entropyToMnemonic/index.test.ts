@@ -9,7 +9,7 @@ describe('entropyToMnemonic', () => {
     entropyToMnemonic(entropy, 'english');
   });
   it('will be failed (malformed raw entropy)', () => {
-    const binary = new BinaryImpl('0101010101');
+    const binary = BinaryImpl.new('0101010101');
     expect(() => entropyToMnemonic(binary)).toThrowError(
       new Error(`the entropy must be divided by 11. (10)`)
     );
@@ -23,7 +23,9 @@ describe('Mnemonic class', () => {
     mnemonic = entropyToMnemonic(entropy, 'english');
   });
   test('static isValidRawMnemonicArray()', () => {
-    expect(MnemonicImpl.isValidRawMnemonicArray('english', ['absurd', 'above'])).toBeTruthy();
+    expect(
+      MnemonicImpl.isValidRawMnemonicArray('english', ['absurd', 'above'])
+    ).toBeTruthy();
   });
   test('len', () => {
     expect(mnemonic.len).toEqual(12);
@@ -33,11 +35,11 @@ describe('Mnemonic class', () => {
     expect(() =>
       MnemonicImpl.unsafeNew('english', ['apple', 'banana'], [1])
     ).toThrowError(new Error(`not matched array sizes`));
-    expect(() => new MnemonicImpl('english', ['화겸', '김'])).toThrowError(
+    expect(() => MnemonicImpl.new('english', ['화겸', '김'])).toThrowError(
       new Error(`not a valid raw mnemonic array`)
     );
     // right mnemonic
-    const rawIndex: number[] = new MnemonicImpl('english', [
+    const rawIndex: number[] = MnemonicImpl.new('english', [
       'abandon',
       'ability',
     ]).rawIndex;

@@ -4,7 +4,12 @@ import type { Writable } from '../../utils';
 
 // -----------------------------
 
-const { bytesToBinaryStr, hexStrToBinaryStr, stringToChunkArray } = STRINGS;
+const {
+  bytesToBinaryStr,
+  hexStrToBinaryStr,
+  binaryStrToHexStr,
+  stringToChunkArray,
+} = STRINGS;
 
 // -----------------------------
 
@@ -15,6 +20,7 @@ export interface Binary {
   str: BinaryString;
   chunks(size: number): Binary[];
   toNumber(): number;
+  toHex(): string;
   kill(): void;
 }
 
@@ -31,10 +37,13 @@ export class BinaryImpl implements Binary {
   get len(): number {
     return this.str.length;
   }
-  constructor(private binaryString: BinaryString) {
+  private constructor(private binaryString: BinaryString) {
     this.str = binaryString;
   }
   // ---------
+  static new(s: BinaryString): Binary {
+    return new BinaryImpl(s);
+  }
   static unsafeNew(s: BinaryString): Binary {
     const ret = new BinaryImpl('0');
     ret.setUnsafeStr(s);
@@ -63,6 +72,9 @@ export class BinaryImpl implements Binary {
   }
   toNumber(): number {
     return parseInt(this.binaryString, 2);
+  }
+  toHex(): string {
+    return binaryStrToHexStr(this.binaryString);
   }
   kill(): void {
     const mine: Writable<BinaryImpl> = this;
