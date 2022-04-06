@@ -37,8 +37,8 @@ export default function (
 
 export function calcChecksum(bytes: Buffer) {
   const checksumBitNum = (bytes.byteLength * 8) / 32; // S bits / 32 bits
-  const hex1byte = sha256(bytes).slice(0, 1);
-  const binary1byte = bytesToBinaryStr(hex1byte);
+  const byte = sha256(bytes).slice(0, 1);
+  const binary1byte = bytesToBinaryStr(byte);
   return binary1byte.slice(0, checksumBitNum);
 }
 

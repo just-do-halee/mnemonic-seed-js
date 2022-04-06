@@ -19,6 +19,7 @@ export function hexStrToBinaryStr(hex: string): string {
   hex = hex.replace('0x', '').toLowerCase();
   let binary = '';
   for (const ch of hex) {
+    
     switch (ch) {
       case '0':
         binary += '0000';
