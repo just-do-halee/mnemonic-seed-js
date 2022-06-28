@@ -1,6 +1,6 @@
 {
   "name": "mnemonic-seed-js",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "mnemonic and seed generator according to BIP39",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
