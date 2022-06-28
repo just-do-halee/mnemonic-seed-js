@@ -1,12 +1,22 @@
-import Seed, { F } from '.';
+import Seed, { F } from ".";
 
-describe('final', () => {
+describe("final", () => {
   let seed: Seed;
   beforeAll(() => {
     seed = Seed.new(); // same as Seed.new({ bitsSize: '128', language: 'english', passphrase: '' });
+    expect(seed.privatekey.toString("hex")).toEqual(
+      Buffer.from(seed.buffer.buffer.slice(0, seed.buffer.length / 2)).toString(
+        "hex"
+      )
+    );
+    expect(seed.chaincode.toString("hex")).toEqual(
+      Buffer.from(seed.buffer.buffer.slice(seed.buffer.length / 2)).toString(
+        "hex"
+      )
+    );
   });
 
-  it('must be same', () => {
+  it("must be same", () => {
     const mnemonic = F.entropyToMnemonic(seed.entropy);
     expect(mnemonic).toEqual(seed.mnemonic);
     const seed2 = F.mnemonicToSeed(mnemonic);
@@ -23,10 +33,10 @@ describe('final', () => {
   afterAll(() => {
     seed.kill();
     expect(seed.buffer).toEqual(Buffer.alloc(seed.buffer.byteLength).fill(0));
-    expect(seed.mnemonic.lang).toEqual('english');
+    expect(seed.mnemonic.lang).toEqual("english");
     expect(seed.mnemonic.raw.length).toEqual(0);
     expect(seed.mnemonic.len).toEqual(0);
     expect(seed.entropy.len).toEqual(0);
-    expect(seed.entropy.str).toEqual('');
+    expect(seed.entropy.str).toEqual("");
   });
 });

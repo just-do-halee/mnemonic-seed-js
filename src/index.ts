@@ -1,6 +1,6 @@
-export * as F from './functions';
-export type { EntropyBits, Language, Mnemonic, Binary } from './functions';
-import type { EntropyBits, Language, Mnemonic, Binary } from './functions';
+export * as F from "./functions";
+export type { EntropyBits, Language, Mnemonic, Binary } from "./functions";
+import type { EntropyBits, Language, Mnemonic, Binary } from "./functions";
 import {
   generateEntropy,
   entropyToMnemonic,
@@ -8,7 +8,7 @@ import {
   mnemonicToEntropy,
   BinaryImpl,
   MnemonicImpl,
-} from './functions';
+} from "./functions";
 
 export type SeedOption = {
   passphrase?: string;
@@ -17,6 +17,8 @@ export type SeedOption = {
 };
 
 export interface Seed {
+  readonly privatekey: Buffer;
+  readonly chaincode: Buffer;
   readonly buffer: Buffer;
   readonly mnemonic: Mnemonic;
   readonly entropy: Binary;
@@ -26,9 +28,9 @@ export interface Seed {
 export default class implements Seed {
   static get defaultSeedOption(): SeedOption {
     return {
-      passphrase: '',
-      bitsSize: '128',
-      language: 'english',
+      passphrase: "",
+      bitsSize: "128",
+      language: "english",
     };
   }
   static new(option: SeedOption = {}): Seed {
@@ -57,7 +59,7 @@ export default class implements Seed {
       ...option,
     };
     let entropy: Binary;
-    if (typeof src === 'string') {
+    if (typeof src === "string") {
       entropy = BinaryImpl.fromHex(src); // Hex
     } else {
       entropy = src; // Binary
@@ -67,13 +69,13 @@ export default class implements Seed {
     return new this(entropy, mnemonic, buffer);
   }
   static fromMnemonic(src: Mnemonic | string, option: SeedOption = {}): Seed {
-    const { passphrase, language = 'english' } = {
+    const { passphrase, language = "english" } = {
       ...this.defaultSeedOption,
       ...option,
     };
     let mnemonic: Mnemonic;
-    if (typeof src === 'string') {
-      mnemonic = MnemonicImpl.new(language, src.split(' ')); // Mnemonic String
+    if (typeof src === "string") {
+      mnemonic = MnemonicImpl.new(language, src.split(" ")); // Mnemonic String
     } else {
       mnemonic = src; // Mnemonic
     }
@@ -84,13 +86,20 @@ export default class implements Seed {
   static fromSeed(src: Seed): Seed {
     return new this(src.entropy, src.mnemonic, src.buffer);
   }
+  readonly privatekey: Buffer;
+  readonly chaincode: Buffer;
   /* *** Unsafe *** */
   private constructor(
     readonly entropy: Binary,
     readonly mnemonic: Mnemonic,
     readonly buffer: Buffer
-  ) {}
+  ) {
+    this.privatekey = Buffer.from(buffer.buffer.slice(0, buffer.length / 2));
+    this.chaincode = Buffer.from(buffer.buffer.slice(buffer.length / 2));
+  }
   kill(): void {
+    this.privatekey.fill(0);
+    this.chaincode.fill(0);
     this.buffer.fill(0);
     this.mnemonic.kill();
     this.entropy.kill();

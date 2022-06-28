@@ -22,7 +22,7 @@ yarn add mnemonic-seed-js
 ## **_`Examples`_**
 
 ```typescript
-import Seed from 'mnemonic-seed-js';
+import Seed from "mnemonic-seed-js";
 
 const seed = Seed.new();
 
@@ -33,6 +33,8 @@ const seed = Seed.new();
 seed.buffer; // Bytes
 seed.entropy; // Binary
 seed.mnemonic; // Mnemonic
+seed.privatekey; // Private Key
+seed.chaincode; // Chain Code
 
 seed.kill(); // clear all datas
 ```
